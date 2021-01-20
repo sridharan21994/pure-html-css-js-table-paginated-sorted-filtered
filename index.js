@@ -1,16 +1,18 @@
 (function(){
 
-const headers = ['numericCode', 'capital', 'region', 'population', 'name'], 
-    sortable = ['region', 'population', 'name'], 
+const headers = ['numericCode', 'capital', 'region', 'population', 'name'],
+    sortable = {'region': 'asc', 'population':'asc', 'name':'asc'}, 
     filterable = ['capital', '', 'population', 'name'], 
     isPaginated = true
 
-let data = [], references = {}, itemsPerPage = 10, current = 1, totalPages = 0, filteredData = []
+let data = [], references = {}, itemsPerPage = 5, current = 1, totalPages = 0, filteredData = []
 
 const fetchData = async () => {
     fetch('https://restcountries.eu/rest/v2/all')
     .then(res => res.json())
     .then(res => {
+        document.getElementById('empty').innerHTML = ''
+        document.getElementById('select').style.display = 'block'
         data = res
         getReferencesAndHeader()
         if (isPaginated) {
@@ -40,6 +42,13 @@ const attachPagerListeners = () => {
     document.getElementById('pagination').addEventListener('click', e => changePagination(e.target.innerHTML))
     document.getElementById('prev').addEventListener('click', e => changePagination(current-1))
     document.getElementById('next').addEventListener('click', e => changePagination(current+1))
+    document.getElementById('select').addEventListener('change', e => changeItemsPerPage(e))
+}
+
+const changeItemsPerPage = (e) => {
+    console.log(e.target.value);
+    itemsPerPage = Number(e.target.value)
+    resetValues(data)
 }
 
 const resetInputs = (ignore = '') => {
@@ -51,8 +60,14 @@ const resetInputs = (ignore = '') => {
 
 const sortTable = (e) => {
     const key = e.target.innerHTML
-    if (key && sortable.indexOf(key)>-1) {
-        data = data.sort((a,b) => (a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0))
+    if (key && sortable[key]) {
+        if (sortable[key] === 'desc') {
+            data = data.sort((a,b) => (a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0))
+            sortable[key] = 'asc'
+        } else {
+            data = data.sort((a,b) => (a[key] < b[key]) ? 1 : ((b[key] < a[key]) ? -1 : 0))
+            sortable[key] = 'desc'
+        }
         resetValues(data)
         resetInputs()
         filteredData = []
@@ -83,7 +98,7 @@ const getReferencesAndHeader = () => {
     headers.forEach(element => {
         const cell = row.insertCell()
         cell.appendChild(document.createTextNode(element))
-        sortable.indexOf(element)>-1 ? cell.classList.add('sortable') : ''
+        sortable[element] ? cell.classList.add('sortable') : ''
     })
 }
 

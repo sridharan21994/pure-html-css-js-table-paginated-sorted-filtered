@@ -4,6 +4,10 @@ table {
     border-radius: 4px;
 }
 
+.select {
+    display: none;
+}
+
 .table {
     max-width: 100%;
     overflow: scroll;
