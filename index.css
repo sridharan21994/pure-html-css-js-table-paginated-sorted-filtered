@@ -4,8 +4,12 @@ table {
     border-radius: 4px;
 }
 
-.select {
+#select, #table {
     display: none;
+}
+
+#empty {
+    text-align: center;
 }
 
 .table {

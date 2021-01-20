@@ -11,9 +11,10 @@ const fetchData = async () => {
     fetch('https://restcountries.eu/rest/v2/all')
     .then(res => res.json())
     .then(res => {
-        document.getElementById('empty').innerHTML = ''
-        document.getElementById('select').style.display = 'block'
         data = res
+        document.getElementById('empty').style.display = 'none'
+        document.getElementById('select').style.display = 'block'
+        document.getElementById('table').style.display = 'table'
         getReferencesAndHeader()
         if (isPaginated) {
             renderTable(res.slice(0,itemsPerPage))
@@ -25,7 +26,9 @@ const fetchData = async () => {
         references['tableHeader'].addEventListener('click', sortTable)
         addFilters()
     })
-    .catch(err => {})
+    .catch(err => {
+
+    })
 }
 fetchData()
 
@@ -49,6 +52,7 @@ const changeItemsPerPage = (e) => {
     console.log(e.target.value);
     itemsPerPage = Number(e.target.value)
     resetValues(data)
+    resetInputs()
 }
 
 const resetInputs = (ignore = '') => {
@@ -133,6 +137,7 @@ const filterData = (e) => {
   
 const renderTable = (values) => {
     references['tableBody'].innerHTML = null
+    document.getElementById('empty').style.display = values.length ? 'none' : 'block'
     values.forEach(element => {
         const row = references['tableBody'].insertRow()
         headers.forEach(headerKey => {
