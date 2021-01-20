@@ -5,7 +5,7 @@ const headers = ['numericCode', 'capital', 'region', 'population', 'name'],
     filterable = ['capital', '', 'population', 'name'], 
     isPaginated = true
 
-let data = [], references = {}, itemsPerPage = 5, current = 1, totalPages = 0, filteredData = []
+let data = [], references = {}, itemsPerPage = 15, current = 1, totalPages = 0, filteredData = []
 
 const fetchData = async () => {
     fetch('https://restcountries.eu/rest/v2/all')
