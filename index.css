@@ -48,7 +48,12 @@ button {
 }
 
 #pagination {
-    margin: 20px auto;
+    display: inline-block;
+}
+
+.pagerWrap {
+    display: flex;
+    align-items: center;
 }
   
 #pagination span {

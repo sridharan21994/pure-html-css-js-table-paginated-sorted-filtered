@@ -93,10 +93,12 @@ const changePagination = (value) => {
 
 const getReferencesAndHeader = () => {
     references['table'] = document.getElementById('table')
+    references['empty'] = document.getElementById('empty')
     references['tableHeader'] = document.getElementById('tableHeader')
     references['tableBody'] = document.getElementById('tableBody')
     references['pagination'] = document.getElementById('pagination')
-    references['pagerButtons'] = document.getElementById('pagerButtons')
+    references['prevButton'] = document.getElementById('prevButton')
+    references['nextButton'] = document.getElementById('nextButton')
 
     const row = references['tableHeader'].insertRow()
     headers.forEach(element => {
@@ -137,7 +139,7 @@ const filterData = (e) => {
   
 const renderTable = (values) => {
     references['tableBody'].innerHTML = null
-    document.getElementById('empty').style.display = values.length ? 'none' : 'block'
+    references['empty'].style.display = values.length ? 'none' : 'block'
     values.forEach(element => {
         const row = references['tableBody'].insertRow()
         headers.forEach(headerKey => {
@@ -173,12 +175,12 @@ const createPagers = () => {
     const prev = document.createElement('button')
     prev.innerHTML = 'Prev'
     prev.setAttribute('id', 'prev')
-    references['pagerButtons'].appendChild(prev)
+    references['prevButton'].appendChild(prev)
 
     const next = document.createElement('button')
     next.innerHTML = 'Next'
     next.setAttribute('id', 'next')
-    references['pagerButtons'].appendChild(next)
+    references['nextButton'].appendChild(next)
 
     attachPagerListeners()
 
